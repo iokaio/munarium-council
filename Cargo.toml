@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: Apache-2.0
+[package]
+name = "munarium-council"
+version = "0.1.0-dev"
+edition = "2024"
+rust-version = "1.98"
+license = "Apache-2.0"
+description = "Request-bound approval, distinct ratification, and recorded governance activation."
+repository = "https://github.com/iokaio/munarium-council"
+readme = "README.md"
+publish = false
+
+[dependencies]
