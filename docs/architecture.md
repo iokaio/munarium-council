@@ -1,6 +1,6 @@
 # Munarium Council implementation architecture
 
-**Proposed design; scaffold only.** Based on section 10 of the
+**Design baseline; see the [service profile](service-profile.md) for current implementation.** Based on section 10 of the
 [platform plan, revision 4](https://github.com/iokaio/munarium-platform/blob/main/docs/platform-plan.md), with lifecycle and failure rules in
 sections 17–19 and 22. See the hub's
 [scaffold decision proposal](https://github.com/iokaio/munarium-platform/blob/main/docs/decisions/0001-scaffold-boundaries.md)

@@ -71,7 +71,10 @@ Use `python` or `python3` where `py` is unavailable. Rust checks use 1.98.1 with
 and Clippy; the new [Rust workflow](.github/workflows/rust.yml) installs that version explicitly.
 The crate has no external dependencies; commit the lockfile and review/pin dependencies when
 implementation introduces them. [Validation](docs/validation.md) distinguishes scaffold checks
-from future acceptance tests. There are no runtime or conformance tests yet.
+from platform acceptance tests. The [service profile](docs/service-profile.md)
+adds executable approval, coordinator and mTLS/process regressions. Run
+`cargo fetch --locked` before offline checks and `python scripts/test_service.py -v`
+after the build; these require OpenSSL and Python but no provider account.
 The workflows under `.github/workflows/` are the source of truth for automatic coverage.
 Add component conformance coverage with each behavior; keep existing automatic suites intact.
 

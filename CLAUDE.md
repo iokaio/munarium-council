@@ -23,9 +23,10 @@ Governance Platform whose first useful public increment is a request-bound appro
 
 ## Current state
 
-This repository contains governance documents, indexed build guides and a dependency-free,
-non-publishable Rust library scaffold. Its modules declare proposed local interfaces only;
-there is no runtime implementation, service, wire schema or qualified capability.
+This repository contains an experimental, non-publishable approval service and
+activation coordinator alongside the original interface traits. SQLite custody,
+enrolled mTLS and component regression tests are described in docs/service-profile.md.
+Full participant integration, contract acceptance and effect qualification remain pending.
 Read [docs/README.md](docs/README.md) and the relevant module before implementation.
 Consequences for any task:
 
@@ -173,7 +174,7 @@ Consult CONTRIBUTING.md and the CI workflows for the exact commands. Today they 
 |---|---|
 | Every contribution | From root: `py check_license.py`, `py scripts/private_material_scan.py`, `py scripts/docs_linkcheck.py`, `gitleaks dir . --config .gitleaks.toml`, and `git diff --check` |
 | Documentation | Every relative link resolves; every page under `docs/` is listed from an index; the README's status and capability table still describe the tree |
-| Rust scaffold | Rust 1.98.1: `cargo fmt --all --check`, `cargo build --offline --locked`, `cargo clippy --offline --locked --all-targets -- -D warnings`, `cargo test --offline --locked`, `cargo doc --offline --locked --no-deps`; no external dependencies or behavioral tests yet |
+| Rust and service | Rust 1.98.1: `cargo fetch --locked`, `cargo fmt --all --check`, `cargo build --offline --locked`, `cargo clippy --offline --locked --all-targets -- -D warnings`, `cargo test --offline --locked`, `cargo doc --offline --locked --no-deps`; then `python scripts/test_service.py -v` with Python/OpenSSL |
 
 Use `python` or `python3` where `py` is unavailable. Never invent a successful
 run. Report failed, skipped, unavailable and model-dependent checks distinctly.

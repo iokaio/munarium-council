@@ -1,6 +1,6 @@
 # Munarium Council build plan
 
-**Proposed work; no functional milestone is complete.** The design baseline is the
+**Original work breakdown; [runtime implementation](service-profile.md) now has component evidence.** The design baseline is the
 [public platform plan, revision 4](https://github.com/iokaio/munarium-platform/blob/main/docs/platform-plan.md), section 10, and its
 stage sequence in section 25. Council's initial delivery belongs to **Stage 1 interfaces; 2 action path**.
 Calendar windows are planning targets; acceptance evidence controls advancement.
