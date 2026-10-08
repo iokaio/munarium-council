@@ -228,6 +228,11 @@ fn exact_audit_ack_is_required_before_delivery_is_complete() {
         )
         .unwrap();
     let event = store.pending(&a.scope).unwrap().remove(0);
+    assert_eq!(
+        store.evidence(&a.scope, "approval-a").unwrap(),
+        json!({"event":event,"acknowledgement":null})
+    );
+    assert!(store.evidence(&a.scope, "unknown").is_err());
     let mut ack = v["records"]["ack"].clone();
     assert_eq!(
         store.acknowledge(&a.scope, &event, &ack),
@@ -239,6 +244,10 @@ fn exact_audit_ack_is_required_before_delivery_is_complete() {
     ack["event_digest"] = json!(wire::digest("accountability-event", &event).unwrap());
     store.acknowledge(&a.scope, &event, &ack).unwrap();
     store.acknowledge(&a.scope, &event, &ack).unwrap();
+    assert_eq!(
+        store.evidence(&a.scope, "approval-a").unwrap(),
+        json!({"event":event,"acknowledgement":ack})
+    );
     assert!(store.pending(&a.scope).unwrap().is_empty());
     ack["position"] = json!(2);
     assert_eq!(

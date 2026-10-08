@@ -110,7 +110,7 @@ impl Runtime {
         if token.len() > 65536 {
             return Err(Error::Unavailable);
         }
-        let response=self.post(&format!("{}/v1/identity",self.config.warden_endpoint.trim_end_matches('/')),json!({"tenant":tenant,"audience":self.config.server_service,"action":{"operation":"root","provider_id":self.config.provider_id,"token":token.trim(),"scopes":["read","record"],"resources":[format!("action-records:{tenant}")]}})).await?;
+        let response=self.post(&format!("{}/v1/identity",self.config.warden_endpoint.trim_end_matches('/')),json!({"tenant":tenant,"audience":self.config.server_service,"action":{"operation":"root","provider_id":self.config.provider_id,"token":token.trim(),"scopes":["read","propose"],"resources":[format!("action-records:{tenant}")]}})).await?;
         let usable = response["usable_at"].as_i64().ok_or(Error::Unavailable)?;
         let now = service_transport::now().map_err(unavailable)?;
         if usable > now + 3 {
@@ -212,7 +212,10 @@ impl Runtime {
                     .find(|h| h.principal == record["approver"]);
                 if let Some(active) = active {
                     let auth = authority(&policy, active, &source)?;
-                    self.store.lock().await.lookup(&auth, &id)
+                    let store = self.store.lock().await;
+                    let mut result = store.lookup(&auth, &id)?;
+                    result["audit"] = store.evidence(&policy.scope, &id)?;
+                    Ok(result)
                 } else {
                     Ok(json!({"approval":record,"status":"ineligible","currently_usable":false}))
                 }
