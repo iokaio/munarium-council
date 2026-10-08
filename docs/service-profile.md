@@ -91,3 +91,14 @@ not the full platform composition or an external identity-provider qualification
 The fixture generates disposable test keys and databases, stops its owned process
 and servers and removes the temporary directory. It never creates target effects.
 REF-02-19 and H03 composition results must be recorded separately in Harness.
+
+## Approval custody integration
+
+Approval lookup now includes `audit.event` and `audit.acknowledgement`, fetched from
+Council's retained outbox after the reader is authenticated. A null acknowledgement
+means recording remains pending; it never grants execution authority. Current status,
+human eligibility and immutable expiry remain separate from that historical evidence.
+The recorder requests Server's implemented `read`/`propose` scopes, using Council's
+own workload identity. Gate's prepared release service supplies source records and
+returns exact cancellation or too-late receipts for withdrawal. Harness exercises
+this path with actual Council, Gate, Warden and Server processes.

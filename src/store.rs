@@ -30,6 +30,26 @@ pub struct Store {
     db: Connection,
 }
 impl Store {
+    /// Original audit bytes and custody for a reader already authorized by the adapter.
+    /// Absence of acknowledgement remains explicit and conveys no approval authority.
+    pub fn evidence(&self, scope: &Value, id: &str) -> Result<Value> {
+        let mut statement = self
+            .db
+            .prepare("SELECT event,ack FROM outbox WHERE scope=?1 ORDER BY generation,sequence")?;
+        let rows = statement.query_map([wire::canonical(scope)?], |r| {
+            Ok((r.get::<_, String>(0)?, r.get::<_, Option<String>>(1)?))
+        })?;
+        for row in rows {
+            let (event, ack) = row?;
+            let event = wire::parse(&event)?;
+            if event["payload"]["approval"]["id"] == id {
+                return Ok(
+                    json!({"event":event,"acknowledgement":ack.map(|v|wire::parse(&v)).transpose()?}),
+                );
+            }
+        }
+        Err(Error::Refused)
+    }
     /// Retrieve immutable issuance for an already authorized adapter; no current-use claim.
     pub fn issuance(&self, scope: &Value, id: &str) -> Result<Value> {
         let raw: String = self
