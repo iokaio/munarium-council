@@ -1,5 +1,8 @@
 # Munarium Council development documentation
 
+[Experimental service profile](service-profile.md) documents the implemented
+approval/coordinator boundary, CLI, tests and remaining composition obligations.
+
 Start with the [repository README](../README.md) for scope and capability status.
 The [public platform plan, revision 4](https://github.com/iokaio/munarium-platform/blob/main/docs/platform-plan.md) is the design baseline;
 section 10 covers Council. A plan or a compiling interface does not establish a capability.

@@ -7,12 +7,12 @@ moves a governance change from candidate to activated through distinct, verified
 does not execute target operations or hold their credentials. Its central rule is the platform's:
 **an agent's ordinary operating identity must never activate the rules that govern it.**
 
-> **Status: Planned — Rust scaffold present.** This checkout contains a dependency-free,
-> non-publishable [Cargo library](Cargo.toml) and documented interfaces under [src/](src/lib.rs).
-> The interfaces have no implementations: no runtime service, client transport, database,
-> provider integration or contract implementation is available. No production path is qualified.
-> Build checks validate source structure, not governance capabilities. The
-> [capability table](#capability-status) remains the authoritative functional status.
+> **Status: Experimental approval service and activation coordinator.** The
+> [service profile](docs/service-profile.md) describes enrolled mTLS human approval,
+> durable SQLite custody, request-bound retries, withdrawal and resumable activation
+> progress. Component tests cover the implemented boundary. Full participant
+> integration, effect qualification and formal contract acceptance remain pending.
+> No production path is qualified.
 
 Council is one of nine components built around the existing Munarium foundation, Munarium Server
 and Munarium Matrix. Their shared architecture, normative contracts, decision records, roadmap and
@@ -28,7 +28,8 @@ advanced Council workflows are deferred roadmap work, not a closed-edition featu
 Read the [development index](docs/README.md), then the [architecture](docs/architecture.md),
 [implementation plan](docs/implementation-plan.md) and [validation guide](docs/validation.md).
 They map the public platform plan to source modules, dependencies, a first bounded work item
-and acceptance cases. Runtime capabilities remain planned; supported contract versions are **none**.
+and acceptance cases. The [service profile](docs/service-profile.md) identifies
+the experimental candidate and evidence; released contract versions remain **none**.
 
 ## What Council is for
 
@@ -146,11 +147,11 @@ repository is at **repository created**.
 
 | Capability | Status | Evidence |
 |---|---|---|
-| Request-bound approval: hash, target, environment, digests, evidence, obligations, expiry, principal chain | Planned | none |
-| Authenticated approval interface and command-line workflow | Planned | none |
+| Request-bound approval: hash, target, environment, digests, evidence, obligations, expiry, principal chain | Experimental | [Approval regressions](tests/approval.rs) |
+| Authenticated approval interface and command-line workflow | Experimental | [TLS/process test](scripts/test_service.py), [CLI](scripts/council_client.py) |
 | Approver, role, decision, binding, freshness and quorum verification on the callback | Planned | none |
 | Governance state machine: candidate, tested, ratified, scheduled, activated, superseded; cancellation, expiry, veto, failed activation | Planned | none |
-| Compare-and-set activation into Registry and Server | Planned | none |
+| Resumable activation coordinator and participant receipt checks | Experimental coordinator; full composition pending | [Restart/receipt regressions](tests/activation.rs) |
 | Bootstrap attestation contract and its recorded retirement | Planned, with Server's S1 | none |
 | Shadow evaluation as an impact report | Planned | none |
 | Policy toolchain: lint, schema checks, signed fixtures, replay, impact report | Planned | none |

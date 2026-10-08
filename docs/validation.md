@@ -2,6 +2,11 @@
 
 ## Build the scaffold locally
 
+The first runtime packet is now implemented; use the commands and coverage map in
+the [service profile](service-profile.md). Fetch the pinned dependencies with
+`cargo fetch --locked` before offline checks. The historical scaffold description
+below records the original baseline and does not describe the new runtime tests.
+
 Use Rust **1.98.1** with Cargo, rustfmt and Clippy, plus the platform's native linker.
 The manifest requires Rust 1.98; older toolchains are not qualified by this scaffold.
 CI installs 1.98.1 explicitly. No provider account, database, model key, container, sibling

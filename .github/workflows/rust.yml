@@ -25,12 +25,16 @@ jobs:
         run: rustup toolchain install 1.98.1 --profile minimal --component rustfmt --component clippy
       - name: Format
         run: cargo +1.98.1 fmt --all --check
-      - name: Build
+      - name: Fetch locked public dependencies
+        run: cargo +1.98.1 fetch --locked
+      - name: Build locked source
         run: cargo +1.98.1 build --offline --locked
       - name: Lint
         run: cargo +1.98.1 clippy --offline --locked --all-targets -- -D warnings
       - name: Test
         run: cargo +1.98.1 test --offline --locked
+      - name: Authenticated service and restart boundaries
+        run: python3 scripts/test_service.py -v
       - name: Documentation
         env:
           RUSTDOCFLAGS: -D warnings
